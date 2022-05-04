@@ -25,8 +25,11 @@ const layout = (props) => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="navbar-nav navbar-dark">
-          <div className="nav-item text-nowrap">
+          <div className="nav-item text-nowrap row">
             <a className="nav-link px-3" onClick={() => { Router.push('/user/login') }} >Αποσύνδεση χρήστη {activeUsername}</a>
+          </div>
+          <div className="text-nowrap row no-p">
+            <small className="nav-link px-3" >Όνομα συνεδεμένου</small>
           </div>
         </div>
       </header><div className="container-fluid">
