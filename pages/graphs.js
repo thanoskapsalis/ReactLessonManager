@@ -9,6 +9,7 @@ const graphs = () => {
   const [lessonData, setLessonData] = useState([]);
   const [lessons, setLeassons] = useState();
   const [lesson, setLesson] = useState(2);
+  const [role, setRole] = useState();
 
   const colors = [
     '#198754', '	#dc3545'
@@ -16,7 +17,11 @@ const graphs = () => {
 
   useEffect(() => {
     const formattedData = [];
-    backend.get('source/lessons').then((response) => {
+    setRole(window.localStorage.getItem('role'));
+    const teacherID = (window.localStorage.getItem('role') == 'teacher')
+      ? window.localStorage.getItem('userId')
+      : 0;
+    backend.get(`source/lessons?teacherId=${teacherID}`).then((response) => {
       setLeassons(response.data);
     });
     backend.get('/class/get').then((response) => {
@@ -61,29 +66,31 @@ const graphs = () => {
       <section className="vh-100">
         <h2>Παρακάτω Φαίνονται διάφορα στατιστικά στοιχεία που αφορούν τα δεδομένα της εφαρμογής</h2>
         <div className='row'>
-          <div className='col-md-6 col-12'>
-            <label>Αριθμός μαθημάτων που έχουν κατανεμηθεί σε καθηγητές</label>
-            <ResponsiveContainer width="100%" height="96%">
-              <BarChart
-                width={150}
-                height={150}
-                data={teachersToLessons}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" height={150} tick={{ angle: 40, textAnchor: 'start' }} />
-                <YAxis />
-                <Tooltip label="Μαθήματα" />
-                <Bar dataKey="lessonsAttached" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          <div className='col-md-6 col-12'>
+          {role == "admin" &&
+            <div className='col-md-6 col-12'>
+              <label>Αριθμός μαθημάτων που έχουν κατανεμηθεί σε καθηγητές</label>
+              <ResponsiveContainer width="100%" height="96%">
+                <BarChart
+                  width={150}
+                  height={150}
+                  data={teachersToLessons}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" height={150} tick={{ angle: 40, textAnchor: 'start' }} />
+                  <YAxis />
+                  <Tooltip label="Μαθήματα" />
+                  <Bar dataKey="lessonsAttached" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          }
+          <div className='col-md col-12'>
             <label>Ποσοστό επιτυχίας/αποτυχίας Μαθημάτων</label>
             <div className="mb-3">
               <label for="name" className="form-label">Μάθημα </label>

@@ -39,6 +39,7 @@ const login = () => {
         window.localStorage.setItem('role', response.data.role);
         if (response.data.role != "admin") {
           window.localStorage.setItem('userId', response.data.info.id);
+          window.localStorage.setItem('info', JSON.stringify(response.data.info));
         }
         window.localStorage.setItem('username', username);
         Router.push('/home');
