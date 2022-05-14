@@ -105,11 +105,11 @@ const login = () => {
 
                   </div>
                   <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                    <Image
-                      src="/wall.jpg"
-                      width={2000}
-                      height={2000}
-                      alt="Sample image" />
+                      <Image
+                        src="/wall.jpg"
+                        width={2000}
+                        height={2000}
+                        alt="Sample image" />
 
                   </div>
                 </div>

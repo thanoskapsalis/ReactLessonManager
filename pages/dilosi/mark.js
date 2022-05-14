@@ -2,8 +2,10 @@ import { faCheck, faCross, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import * as XLSX from "xlsx";
 import { backend } from '../../libs/configuration';
 import Layout from '../layout';
+
 
 const mark = () => {
 
@@ -18,7 +20,9 @@ const mark = () => {
         tempData.push({
           id: element.id,
           lesson: element.teachClass.lesson.name,
+          lessonId: element.teachClass.lesson.id,
           student: element.student.firstName + " " + element.student.lastname,
+          studentId: element.student.id,
           examMandatory: element.teachClass.examMandatory,
           labMandatory: element.teachClass.labMandatory,
           labWeight: element.teachClass.labWeight,
@@ -32,6 +36,40 @@ const mark = () => {
 
     })
   }, [])
+
+  /**
+   * Ενημερώνει τις βαθμολογίες μέσω excel αρχειου που ανανεώνεται 
+   * @param {*} e 
+   */
+  const markFromExcel = (e) => {
+    const [file] = e.target.files;
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: "binary" });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      let updatedData = [];
+      data.forEach(sh => {
+        dilosisData.map(obj => {
+          if (obj.lessonId == sh[0] && obj.studentId == sh[1]) {
+            updatedData.push({
+              ...obj,
+              examMark: sh[2],
+              labMark: sh[3],
+              finalMark: (sh[2] * obj.examWeight + sh[3] * obj.labWeight).toFixed(1)
+            })
+          }
+        })
+      })
+      var ids = new Set(updatedData.map(d => d.id));
+      var merged = [...updatedData, ...dilosisData.filter(d => !ids.has(d.id))];
+      setDilosisData(merged);
+    };
+    reader.readAsBinaryString(file);
+  }
 
   /**
    * Updates the array with the dilosi data in order to calculate the final marks 
@@ -143,6 +181,10 @@ const mark = () => {
         <h3>Εισαγωγή Βαθμολογιών Μαθημάτων</h3>
         <div className="d-flex float-end">
           <button onClick={saveMarks} className="btn btn-success mt-auto align-self-end">Αποθήκευση Βαθμολογιών</button>
+        </div>
+        <div className="mt-4 mb-3">
+          <label className="form-label">Εισαγωγή Βαθμολογιών απο Excel</label>
+          <input className="form-control form-control-sm" onChange={markFromExcel} type="file" />
         </div>
         <small>Εμφανίζονται οι δηλώσεις στα μαθήματα που είναι στην κατοχή του διδάσκοντα </small>
         <DataTable
