@@ -5,7 +5,11 @@ import Select from 'react-select';
 import { backend } from "../../libs/configuration";
 import Layout from "../layout";
 
-
+/**
+ * Κατασκευάζεται μια νέα δήλωση μαθημάτων απο τον φοιτητή. 
+ * Ο φοιτητής μπορεί να επιλέξει τα μαθήματα που επιθυμεί να δηλώσει 
+ * καθώς και να τα φιλτράρει ανα εξάμηνο
+ */
 const newDiliosi = () => {
 
   const [studentInfo, setUserInfo] = useState({});
@@ -36,6 +40,12 @@ const newDiliosi = () => {
 
   }, [])
 
+  /**
+   * Κατα την αλλαγή του επιλεγμένου εξαμήνου καθορίζεται ποιό είναι το εξάμηνο
+   * που επιλέχθηκε και φιλτράρονται τα μαθήματα που προσφέρονται.
+   * 
+   * @param {int} key 
+   */
   const setSelectedSemester = (key) => {
     setSelectedLessonDilosi([]);
     if (key == 0) { setFilteredClassesAvaliable(classesAvaliable) }
@@ -43,23 +53,32 @@ const newDiliosi = () => {
     setFilteredClassesAvaliable(filtered);
   }
 
+  /**
+   * Αποθήκευση των μαθημάτων που επέλεξε ο φοιτητής
+   * @param {*} selectedRows 
+   */
   const setDilosiLessons = ({ selectedRows }) => {
     setSelectedLessonDilosi(selectedRows);
   }
 
+  /**
+   * Φιλτράρει και αποστ΄έλλει τα μαθήματα που επέλεξε ο χρήστης 
+   * ώστε να κατασκευαστεί η δήλωση μαθημάτων
+   */
   const sendDilosiData = () => {
-    // We are filtering the id of the selected classes in order to send them
-    // at the backend and create the dilosis
     let items = [];
     selectedLessonsDilosi.forEach(element => items.push(element.id));
 
-    backend.post(`/dilosi/new?studentId=${window.localStorage.getItem('userId')}`, items).then((response)=> {
-      if(response.data) {
+    backend.post(`/dilosi/new?studentId=${window.localStorage.getItem('userId')}`, items).then((response) => {
+      if (response.data) {
         Router.push('/dilosi');
       }
     })
   }
 
+  /**
+   * Καθορισμός στηλών table διαθέσιμων μαθημάτων
+   */
   const columns = [
     { name: "Κωδικός Διδασκαλίας", selector: row => row.id },
     { name: "Όνομα", selector: row => row.name },
