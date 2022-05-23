@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
 import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 import { backend } from '../../libs/configuration';
-
 
 const register = () => {
 
@@ -22,6 +22,12 @@ const register = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
+
+  const gradeOptions = [
+    { label: "Επίκουρος", value: "epikoyros" },
+    { label: "Αναπλήρωτης", value: "anaplirvths" },
+    { label: "Καθηγητής", value: "kauhghths" },
+  ];
 
 
 
@@ -51,7 +57,7 @@ const register = () => {
         item = {
           firstName: firstName,
           lastname: lastName,
-          grade: grade
+          grade: grade.value
         }
       } else {
         item = {
@@ -138,7 +144,11 @@ const register = () => {
                             <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                             <div className="form-outline flex-fill mb-0">
                               <label className="form-label" for="form3Example4c">Βαθμίδα Εκπαίδευσης</label>
-                              <input type="text" onChange={(event) => setGrade(event.target.value)} className="form-control" />
+                              <Select
+                                value={grade}
+                                options={gradeOptions}
+                                onChange={(selectedOption) => setGrade(selectedOption)}
+                              />
                             </div>
                           </div>
 
@@ -164,17 +174,6 @@ const register = () => {
                         </>
 
                       }
-                      <div className="form-check d-flex justify-content-center mb-5">
-                        <input
-                          className="form-check-input me-2"
-                          type="checkbox"
-                          value=""
-                          id="form2Example3c"
-                        />
-                        <label className="form-check-label" for="form2Example3">
-                          I agree all statements in <a href="#!">Terms of service</a>
-                        </label>
-                      </div>
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                         <button onClick={addNewUser} type="button" className="btn btn-primary btn-lg">Εγγραφή</button>

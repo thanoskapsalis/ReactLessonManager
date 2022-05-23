@@ -44,20 +44,6 @@ const teacherManager = () => {
       },
       sortable: true
     },
-    // {
-    //   name: 'Έτος εισαγωγής',
-    //   cell: (record) => {
-    //     return (
-    //       <input
-    //         id="yearEntered"
-    //         onChange={(event) => updateValues(record, event)}
-    //         type="number"
-    //         className="form-control"
-    //         value={record.yearEntered} />
-    //     )
-    //   },
-    //   sortable: true
-    // },
     {
       cell: (record) => {
         return (
@@ -90,13 +76,6 @@ const teacherManager = () => {
         }
       }
 
-      // if (obj.id == record.id && event.target.id == "yearEntered") {
-      //   return {
-      //     ...obj,
-      //     yearEntered: event.target.value
-      //   }
-      // }
-
       return obj;
     })
 
@@ -116,14 +95,15 @@ const teacherManager = () => {
     })
   }
 
-  const newTeacher = (id, firstName, lastName, yearEntered) => {
+  const newTeacher = (id, firstName, lastName, yearEntered,grade) => {
     const item = {
       firstName: firstName,
       lastname: lastName,
-      yearEntered: yearEntered,
+      grade: grade,
       id: id
     }
 
+    console.log(grade);
     backend.post('/user/newTeacher', item).then((response) => {
       closeModal();
       toast.notify("Προστέθηκε επιτυχώς", { duration: 5, type: "success", title: "Lesson Application" })
@@ -160,6 +140,7 @@ const teacherManager = () => {
         action={newTeacher}
         closeModal={closeModal}
         confirmText="Προσθήκη"
+        role="teacher"
       />
     </>
 

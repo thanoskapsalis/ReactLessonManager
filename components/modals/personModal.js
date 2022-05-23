@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from 'react-modal';
+import Select from "react-select";
 
 const personModal = (props) => {
 
@@ -7,6 +8,13 @@ const personModal = (props) => {
   const [lastName, setLastName] = useState();
   const [yearEntered, setYearEntered] = useState();
   const [id, setId] = useState();
+  const [grade, setGrade] = useState();
+
+  const gradeOptions = [
+    { label: "Επίκουρος", value: "epikoyros" },
+    { label: "Αναπλήρωτης", value: "anaplirvths" },
+    { label: "Καθηγητής", value: "kauhghths" },
+  ];
 
   const modalStyle = {
     content: {
@@ -45,14 +53,26 @@ const personModal = (props) => {
             <label for="description" className="form-label">Επώνυμο</label>
             <input type="text" className="form-control" value={lastName} id="description" onChange={(event) => setLastName(event.target.value)} />
           </div>
-          <div className="mb-3">
-            <label for="required" className="form-label">Έτος εισαγωγής</label>
-            <input type="text" value={yearEntered} className="form-control" id="required" onChange={(event) => setYearEntered(event.target.value)} />
-          </div>
+          {props.role == "teacher" &&
+            <div className="mb-3">
+              <label className="form-label">Βαθμίδα Εκπαίδευσης</label>
+              <Select
+                value={grade}
+                options={gradeOptions}
+                onChange={(selectedOption) => setGrade(selectedOption)}
+              />
+            </div>
+          }
+          {props.role == "student" &&
+            <div className="mb-3">
+              <label for="required" className="form-label">Έτος εισαγωγής</label>
+              <input type="text" value={yearEntered} className="form-control" id="required" onChange={(event) => setYearEntered(event.target.value)} />
+            </div>
+          }
         </form>
       </div>
       <div className="d-flex float-end">
-        <button onClick={() => props.action(id, firstName, lastName, yearEntered)} className=" mt-2 btn  btn-success">{props.confirmText}</button>
+        <button onClick={() => props.action(id, firstName, lastName, yearEntered, grade.value)} className=" mt-2 btn  btn-success">{props.confirmText}</button>
       </div>
     </Modal>
 

@@ -115,7 +115,7 @@ const studentManager = () => {
     })
   }
 
-  const newStudent = (id, firstName, lastName, yearEntered) => {
+  const newStudent = (id, firstName, lastName, yearEntered, grade) => {
     const item = {
       firstName: firstName,
       lastname: lastName,
@@ -162,6 +162,7 @@ const studentManager = () => {
         action={newStudent}
         closeModal={closeModal}
         confirmText="Προσθήκη"
+        role="student"
       />
     </>
 

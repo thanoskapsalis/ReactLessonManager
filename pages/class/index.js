@@ -6,6 +6,12 @@ import ClassModal from '../../components/modals/classModal';
 import { backend } from '../../libs/configuration';
 import Layout from '../layout';
 
+/**
+ * Απο αυτήν την σελίδα γίνεται η διαχείριση των τάξεων που υπάρχουν στο σύστημα.
+ * Μέσω των τάξεω γίνονται οι αναθέσεις των μαθημάτων στους καθηγητές καθώς και η τροποποίηση 
+ * των βαρυτήτων της θεωρ΄ίας και του εργαστηρ΄ίου. Οι διαχειριστές μπορούν να κατασκευάσουν ταξεις 
+ * αναθέτωντας μαθήματα σε καθήγητες και οι καθηγητές μπορούν να τα τροποποιήσουν
+ */
 const index = () => {
 
   const [isShown, setModalStatus] = useState(false);
@@ -20,6 +26,11 @@ const index = () => {
   const showModal = () => { setModalStatus(true); }
   const closeModal = () => { setModalStatus(false); }
 
+  /**
+   * Θέτει το id της επιλεγμένης τάξης ώστε να ξέρει το modal πια πρέπει να φορτωθεί 
+   * και εμφανίζει το modal
+   * @param {int} id 
+   */
   const prepareEditModal = (id) => {
     setEditClassKey(id);
     showModal();
