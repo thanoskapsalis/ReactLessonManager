@@ -17,7 +17,7 @@ const layout = (props) => {
       : ' ');
 
     const obj = JSON.parse(window.localStorage.getItem('info'));
-    if ( obj != null) {
+    if (obj != null) {
       setFullName(obj.firstName + ' ' + obj.lastname);
     }
 
@@ -27,16 +27,16 @@ const layout = (props) => {
   return (
     <section className="vh-100">
       <header className="navbar navbar-dark sticky-top bg-secondary flex-md-nowrap p-0 shadow">
-        <Image className="navbar-brand col-md-3 col-lg-2 me-0 px-3" src="/uni.png" width={200} height={50}/>
+        <Image className="navbar-brand col-md-3 col-lg-2 me-0 px-3" src="/uni.png" width={200} height={50} />
         <button className="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="navbar-nav navbar-dark">
           <div className="nav-item text-nowrap row">
-            <a className="nav-link px-3" onClick={() => { window.localStorage.clear();Router.push('/user/login') }} >Αποσύνδεση χρήστη {activeUsername}</a>
+            <a className="nav-link px-3" onClick={() => { window.localStorage.clear(); Router.push('/user/login') }} >Αποσύνδεση χρήστη {activeUsername}</a>
           </div>
           <div className="text-nowrap row no-p">
-            <small className="nav-link px-3" >Όνομα συνεδεμένου : { fullName}</small>
+            <Link href={'/user/profile'} ><small className="nav-link px-3">Όνομα συνεδεμένου : {fullName}</small></Link>
           </div>
         </div>
       </header><div className="container-fluid">
