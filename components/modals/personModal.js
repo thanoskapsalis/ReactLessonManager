@@ -8,7 +8,7 @@ const personModal = (props) => {
   const [lastName, setLastName] = useState();
   const [yearEntered, setYearEntered] = useState();
   const [id, setId] = useState();
-  const [grade, setGrade] = useState();
+  const [grade, setGrade] = useState({});
 
   const gradeOptions = [
     { label: "Επίκουρος", value: "epikoyros" },
@@ -72,7 +72,7 @@ const personModal = (props) => {
         </form>
       </div>
       <div className="d-flex float-end">
-        <button onClick={() => props.action(id, firstName, lastName, yearEntered, grade.value)} className=" mt-2 btn  btn-success">{props.confirmText}</button>
+        <button onClick={() => props.action(id, firstName, lastName, yearEntered, grade?.value)} className=" mt-2 btn  btn-success">{props.confirmText}</button>
       </div>
     </Modal>
 
